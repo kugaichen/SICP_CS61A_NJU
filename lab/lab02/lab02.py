@@ -152,7 +152,6 @@ def cycle(f1, f2, f3):
                 return y
             return do_openretion0
         else:
-            # rest_sequece = [(f1),(f1,f2),(f1,f2,f3)]
             func_slot = [f1, f2, f3]*(x//3) + [f1,f2,f3][0:x%3]
             def do_operation(y):
                 result = y 
