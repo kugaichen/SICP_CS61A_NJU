@@ -96,6 +96,7 @@ def summation_using_accumulate(n, f):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add,0,n,f)
     
 
 def product_using_accumulate(n, f):
@@ -112,6 +113,7 @@ def product_using_accumulate(n, f):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul,1,n,f)
 
 
 def missions(f):
@@ -169,7 +171,7 @@ def get_the_cake(missions):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(get_the_cake)).body[0].body]
     ['Expr', 'Return']
     """
-    return "*** YOUR CODE HERE ***"
+    return missions(lambda x: 2*x)(lambda y: y)(0)(1)(2)(3)(4)
 
 
 def protected_secret(password, secret, num_attempts):
@@ -191,8 +193,33 @@ def protected_secret(password, secret, num_attempts):
     SECRET LOCKED
     """
     def get_secret(password_attempt):
-        "*** YOUR CODE HERE ***"
+        if num_attempts == 0:
+            print ("SECRET LOCKED")
+            return get_secret
+        else:
+            if password_attempt == password :
+                print(secret)
+                return get_secret
+            else:
+                num = num_attempts - 1
+                print("INCORRECT PASSWORD")
+                return protected_secret(password, secret, num)
+  
     return get_secret
+'''
+---the notice for myself or same kind of growing-hackers---
+
+this question worried me a lot of time: there are 2 traps in that question, 
+1. the fucntion get_secret return the function itself so that it can be used in 
+the next time as the example, samely, it can also return function "protected_secret" 
+becaues of its return is just "get_secret".
+2. when i thinked of this question, it always puzzled that why the parameter "num_attempts"
+was not called, the situation was that i used the same parameter name when i did the judgement
+"if num_attempts == 0" and did the parameter updated "num_attempts = num_attempts - 1" and its return 
+"protected_secret(password, secret, num_attampts)"
+so i think that is parameter names's confusion, which i should avoid it in coding in future.
+
+'''
 
 
 ##########################
@@ -211,12 +238,13 @@ def successor(n):
 def one(f):
     """Church numeral 1: same as successor(zero)"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(x)
 
 
 def two(f):
     """Church numeral 2: same as successor(successor(zero))"""
     "*** YOUR CODE HERE ***"
-
+    return lambda x: f(f(x))
 
 three = successor(two)
 
@@ -234,6 +262,7 @@ def church_to_int(n):
     3
     """
     "*** YOUR CODE HERE ***"
+    return n(increment)(0)
 
 
 def add_church(m, n):
@@ -243,6 +272,7 @@ def add_church(m, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    
 
 
 def mul_church(m, n):
