@@ -225,7 +225,9 @@ so i think that is parameter names's confusion, which i should avoid it in codin
 ##########################
 # Just for fun Questions #
 ##########################
-
+'''
+this may be helpful for everyone: https://zhuanlan.zhihu.com/p/267917164
+'''
 
 def zero(f):
     return lambda x: x
@@ -272,6 +274,7 @@ def add_church(m, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    return lambda f:lambda x: m(f)(x) + n(f)(x)
     
 
 
@@ -284,6 +287,7 @@ def mul_church(m, n):
     12
     """
     "*** YOUR CODE HERE ***"
+    return lambda f:lambda x: m(f)(x) * n(f)(x)
 
 
 def pow_church(m, n):
@@ -295,3 +299,4 @@ def pow_church(m, n):
     9
     """
     "*** YOUR CODE HERE ***"
+    return lambda f: lambda x: m(f)(x) ** n(f)(x)
