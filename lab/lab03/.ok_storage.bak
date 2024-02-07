@@ -1,0 +1,5 @@
+'skip_add-correct', (0, 66)
+'summation-correct', (512, 66)
+'gcd-correct', (1024, 66)
+'paths-correct', (1536, 66)
+'max_subseq-correct', (2048, 66)
