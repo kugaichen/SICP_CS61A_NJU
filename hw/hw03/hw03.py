@@ -20,6 +20,17 @@ def number_of_six(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def divide(n):
+        if n < 10 and n != 6 :
+            return 0 
+        elif n < 10 and n == 6:
+            return 1 
+        elif n % 10 == 6:
+            return 1 + divide(n//10)
+        else:
+            return divide(n//10)
+        
+    return divide(n)
 
 
 def pingpong(n):
@@ -55,11 +66,26 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def index(n):
+        if n == 1 :
+            return 0 
+        elif n%6 == 0 or number_of_six(n)>0:
+            return index(n-1) + 1 
+        else:
+            return index(n-1) + 0 
+    
+    if n == 1:
+        return 1 
+    
+    elif n>1:
+        return pingpong(n-1) + (-1)**index(n-1)
+            
+            
 
 
 def missing_digits(n):
     """Given a number a that is in sorted, increasing order,
-    return the number of missing digits in n. A missing digit is
+    return the number of missing digit  s in n. A missing digit is
     a number between the first and last digit of a that is not in n.
     >>> missing_digits(1248) # 3, 5, 6, 7
     4
@@ -77,7 +103,41 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    seq = []
+    def divide(n,seq):
+        if n<10:
+            if n not in seq:
+                seq.append(n)
+            return seq
+        else:
+            num = n % 10
+            if num not in seq: 
+                seq.append(num)
+            return divide(n//10,seq)
 
+    def check(seq,value):
+        start = seq[0]
+        if value == 0:
+            return 0
+        else:
+            number = start + value 
+            # print(number)
+            if number in seq:
+                value = value -1 
+                return 0 + check(seq,value)
+            else: 
+                value = value -1 
+                return 1 + check(seq,value) 
+        
+    divide(n,seq)
+    seq.reverse()
+    # print(seq)
+    if seq[0] == seq[-1]:
+        return 0
+    elif seq[-1] - seq[0] > 0:
+        value = seq[-1] - seq[0] - 1 
+        return check(seq,value)
+        
 
 def count_change(total, next_money):
     """Return the number of ways to make change for total,
@@ -115,6 +175,35 @@ def count_change(total, next_money):
     True
     """
     "*** YOUR CODE HERE ***"
+    container = [1]
+    
+    def find_largest(n, total, next_money):
+        if next_money(n):
+            if next_money(n) > total:
+                # container.append(n)
+                return n
+            else: 
+                n = next_money(n)
+                container.append(n)
+                return find_largest(n, total, next_money)
+    
+    def count_check(total, num, container, length):
+        if total == 0 or num == 1 or length == 0:
+            return 1 
+        else: 
+            if total >= num: 
+                return count_check(total-num, num, container, length) + count_check(total, last_element(container,length), container, length-1)
+            else:
+                return count_check(total, last_element(container,length), container, length-1)
+    
+    def last_element(container,x):
+        return container[x-1]         
+    
+    find_largest(1, total, next_money)
+    x = len(container) - 1 
+   
+    return  count_check(total, container[x], container, x)          
+       
 
 
 def print_move(origin, destination):
@@ -151,6 +240,23 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    
+    '''
+    the mind is so amamzing, you can understand as 3 steps: 
+    1. move 'n-1' stacked disks ( move_stack of (n-1)) to the other rod
+    2. move the biggest disk from rod 1 to rod 3 as we can think straightforwardly
+    3. move the 'n-1' stacked disks to rod 3 
+    
+    so these 3 steps can obtain the recursive logic
+    '''
+    if n == 1:
+        print_move(start,end)
+    else:
+        other = 6 - start - end 
+        move_stack(n-1, start, other)
+        print_move(start,end)
+        move_stack(n-1, other, end)
+        
 
 
 def multiadder(n):
@@ -171,6 +277,13 @@ def multiadder(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def num(x):
+        return x 
+    
+    if n == 1:
+        return num
+    else:
+        return lambda a:lambda b: multiadder(n-1)(a+b)
 
 
 ##########################

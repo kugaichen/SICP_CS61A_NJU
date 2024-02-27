@@ -1,0 +1,6 @@
+'number_of_six-correct', (0, 66)
+'pingpong-correct', (512, 66)
+'missing_digits-correct', (1024, 66)
+'count_change-correct', (1536, 66)
+'move_stack-correct', (2048, 66)
+'multiadder-correct', (2560, 66)
