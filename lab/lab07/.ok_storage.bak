@@ -1,0 +1,6 @@
+'WWPD-correct', (0, 66)
+'Complex-correct', (512, 66)
+'store_digits-correct', (1024, 66)
+'make_to_string-correct', (1536, 66)
+'cumulative_mul-correct', (2048, 66)
+'prune_small-correct', (2560, 66)
