@@ -404,19 +404,18 @@ class ContainerAnt(Ant):
     ContainerAnt can share a space with other ants by containing them.
     """
     is_container = True
+    
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ant_contained = None
+        
 
     def can_contain(self, other):
         # BEGIN Problem 8
         "*** YOUR CODE HERE ***"
-        if self.ant_contained == None:
-            self.ant_contained = other
-            return self.ant_contained
-        else:
-            return False
+        if self.ant_contained == None and not other.is_container:
+            return True
         # END Problem 8
 
     def store_ant(self, ant):
@@ -424,6 +423,7 @@ class ContainerAnt(Ant):
         "*** YOUR CODE HERE ***"
         # if self.can_contain(self,ant):
             # return False
+        self.ant_contained = ant
         # END Problem 8
 
     def remove_ant(self, ant):
@@ -468,7 +468,7 @@ class BodyguardAnt(ContainerAnt):
 # BEGIN Problem 9
 # The TankAnt class
 class TankAnt(ContainerAnt):
-    name = 'tank'
+    name = 'Tank'
     food_cost = 6
     damage = 1 
     implemented = True
