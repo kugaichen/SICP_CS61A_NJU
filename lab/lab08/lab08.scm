@@ -1,17 +1,22 @@
 ;;; Lab08: Scheme
 
 (define (over-or-under a b)
-  'YOUR-CODE-HERE
+  (cond
+    ((> a b) '1)
+    ((< a b) '-1)
+    ((= a b) '0)
+
+  )
 )
 
 
 (define (make-adder n)
-  'YOUR-CODE-HERE
+  (lambda (x) (+ x n))
 )
 
 
 (define (composed f g)
-  'YOUR-CODE-HERE
+  (lambda (x)(f (g x)))
 )
 
 
@@ -19,15 +24,18 @@
   (- a (* b (quotient a b))))
 
 (define (gcd a b)
-  'YOUR-CODE-HERE
+  (if (= b 0) a
+    (gcd b (remainder a b)))
 )
 
 
 (define lst
-  'YOUR-CODE-HERE
+  (cons (cons 1 nil) (cons 2 (cons (cons 3 (cons 4 nil)) (cons 5 nil))))
 )
 
 
 (define (ordered s)
-  'YOUR-CODE-HERE
-)
+  (if (null? (cdr s)) #t
+    (if (<= (car s) (car (cdr s))) (ordered(cdr s)) #f)  
+  )
+) 
