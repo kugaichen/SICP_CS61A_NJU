@@ -10,20 +10,15 @@ test = {
           ....        (cond ((null? s) #f)
           ....              ((even? (car s)) #t)
           ....              (else (has-even? (cdr-stream s)))))
-          d5d26d71b33538ff9c54bcafe3230c1c
-          # locked
+          has-even?
           scm> (define (f x) (* 3 x))
-          7613f748b4610f588bf7e49fa882a683
-          # locked
+          f
           scm> (define nums (cons-stream 1 (cons-stream (f 3) (cons-stream (f 5) nil))))
-          d5b69aa58f563d16001363e31fb698b1
-          # locked
+          nums
           scm> nums
-          1a259ef5fb0378d36b7227df373908ea
-          # locked
+          (1 . #[promise (not forced)])
           scm> (cdr nums)
-          bc2565820754c3d9d941d57f33d9a11c
-          # locked
+          #[promise (not forced)]
           scm> (cdr-stream nums)
           37f15a0e118239ec66ddba8059b7490a
           # locked
