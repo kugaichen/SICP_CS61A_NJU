@@ -1,4 +1,5 @@
 Do not compare!
+
 Just do it and keep on going, don't be afraid and build your confidence!
 
 Start from SICP and CS61A...
