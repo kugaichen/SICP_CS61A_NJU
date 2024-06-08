@@ -71,14 +71,12 @@ test = {
           scm> (cdr '(1 2))
           (2)
           scm> (cons 'car '('(4 2)))
-          2234c2efce8aa029eaab9df8f6431f75
-          # locked
+          (car (quote (4 2)))
           scm> (eval (cons 'car '('(4 2))))
-          46beb7deeeb5e9af1c8d785b12558317
-          # locked
+          4
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         }
       ],

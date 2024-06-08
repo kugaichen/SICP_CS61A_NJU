@@ -36,14 +36,15 @@ def scheme_eval(expr, env, _=None):  # Optional third argument is ignored
     else:
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
-        operator = scheme_eval(expr.first, env)
-        validate_procedure(operator)
-        from functools import partial
-        # operands = rest.map(partial(scheme_eval, env=env))
-        operands = rest.map(lambda x: scheme_eval(x,env))
+        # generator the operator 
+        op = scheme_eval(first,env)
+        validate_procedure(op)
+        # generator the operands 
+        def one_func(x):
+            return scheme_eval(x,env)  
         
-        return scheme_apply(operator, operands, env)
-        
+        operands = rest.map(one_func)
+        return scheme_apply(op,operands,env)
         # END PROBLEM 3
 
 
@@ -54,31 +55,29 @@ def scheme_apply(procedure, args, env):
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
         "*** YOUR CODE HERE ***"
-        args_list = []
-        pos = args
-        while pos is not nil:
-            if pos.first is not nil:
-                args_list.append(pos.first)
-            else:
-                args_list.append(nil)
-            pos = pos.rest
-        if procedure.expect_env:
-            args_list.append(env)
+        # print(args)
+        real_list = [] 
+        while args != nil:
+            real_list.append(args.first)    
+            args = args.rest
+        if procedure.expect_env == True:
+            real_list.append(env)
+            procedure.expect_env = False
         try:
-            return procedure.py_func(*args_list)
-        except TypeError as e:
-            raise SchemeError(f"incorrect number of arguments,{e}")
-            
+            return procedure.py_func(*real_list)
+        except TypeError:
+            raise SchemeError('incorrect number of arguments')
         # END PROBLEM 2
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
+        "*** YOUR CODE HERE ***"
         child_frame = procedure.env.make_child_frame(procedure.formals, args)
         return eval_all(procedure.body, child_frame)
+        
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
-        child_frame = env.make_child_frame(procedure.formals, args)
-        return eval_all(procedure.body, child_frame)
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)
@@ -102,10 +101,12 @@ def eval_all(expressions, env):
     # BEGIN PROBLEM 6
     if expressions is nil:
         return None 
-    if expressions.rest is nil:
-        return scheme_eval(expressions.first, env)  # replace this with lines of your own code
-    else:
-        return eval_all(expressions.rest, env)
+    expr = expressions
+    while expr.rest is not nil:
+        scheme_eval(expr.first,env)
+        expr = expr.rest 
+        
+    return scheme_eval(expr.first,env)
     # END PROBLEM 6
 
 
@@ -144,6 +145,8 @@ def optimize_tail_calls(original_scheme_eval):
         result = Unevaluated(expr, env)
         # BEGIN PROBLEM EC
         "*** YOUR CODE HERE ***"
+        while isinstance(result, Unevaluated):
+            result = scheme_eval(result.expr, result.env)
         # END PROBLEM EC
     return optimized_eval
 
@@ -151,4 +154,4 @@ def optimize_tail_calls(original_scheme_eval):
 ################################################################
 # Uncomment the following line to apply tail call optimization #
 ################################################################
-# scheme_eval = optimize_tail_calls(scheme_eval)
+scheme_eval = optimize_tail_calls(scheme_eval)
